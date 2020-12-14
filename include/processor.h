@@ -4,7 +4,6 @@
 class Processor {
  public:
     float Utilization();
-
   // Declare private variables for previous idle and total CPU values
   // These will allow for dynamic CPU utilizations calculations
  private:

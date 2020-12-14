@@ -6,12 +6,11 @@
 
 #include "process.h"
 #include "processor.h"
-#include "linux_parser.h"
 
 class System {
  public:
-  Processor& Cpu();                   // TODO: See src/system.cpp
-  std::vector<Process>& Processes();  // TODO: See src/system.cpp
+  Processor& Cpu();                   
+  std::vector<Process>& Processes();
   float MemoryUtilization();          
   long UpTime();                      
   int TotalProcesses();               
@@ -19,10 +18,9 @@ class System {
   std::string Kernel();               
   std::string OperatingSystem();      
 
-  // TODO: Define any necessary private members
  private:
-  Processor cpu_ = {};
-  std::vector<Process> processes_ = {};
+  Processor _cpu = {};
+  std::vector<Process> _processes = {};
 };
 
 #endif
