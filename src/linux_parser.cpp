@@ -237,8 +237,8 @@ long LinuxParser::UpTime(int pid) {
       linestream >> value;
     }
   }
-  // Convert clock ticks to seconds and return the value
-  return stol(value) / sysconf(_SC_CLK_TCK);
+  // Convert clock ticks to seconds and return the (total system uptime - process start time)
+  return LinuxParser::UpTime() - (stol(value) / sysconf(_SC_CLK_TCK));
 }
 
 //

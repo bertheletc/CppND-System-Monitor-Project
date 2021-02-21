@@ -18,7 +18,7 @@ using namespace LinuxParser;
 int Process::Pid() { return _pid; }
 
 // Return this process's CPU utilization
-float Process::CpuUtilization() {
+float Process::CpuUtilization() const {
     // Declare variables to store other time values needed for calculation
     string utime, stime, cutime, cstime, starttime;
     
@@ -58,14 +58,11 @@ float Process::CpuUtilization() {
     //
     // Get the system up time using existing LinuxParser method
     long sysUpTime = LinuxParser::UpTime();
-
     unsigned long long int total_time = stoi(utime) + stoi(stime) + stoi(cutime) + stoi(cstime);
     unsigned long long int seconds = sysUpTime - (stoi(starttime) / sysconf(_SC_CLK_TCK));
 
-    // Calculate final cpu utilization and set to private variable
-    _cpu = 100 * ((float)(total_time / sysconf(_SC_CLK_TCK)) / (float) seconds);
-
-    return _cpu;
+    // Calculate final cpu utilization and return
+    return ((float)(total_time / sysconf(_SC_CLK_TCK)) / (float) seconds);
     
     // unsigned long long int total_time_diff = abs(total_time - _prev_total_time);
     // unsigned long long int seconds_diff = abs(seconds - _prev_seconds);
@@ -104,7 +101,7 @@ long int Process::UpTime() { return LinuxParser::UpTime(_pid); }
 
 // Overload the "less than" comparison operator for Process objects to compare cpu utilization
 bool Process::operator<(const Process& a) const {
-    return (this->_cpu < a._cpu);
+    return a.CpuUtilization() < this->CpuUtilization();
 }
 // StackOverflow for sorting vector of custom objects
 // https://stackoverflow.com/questions/1380463/sorting-a-vector-of-custom-objects
